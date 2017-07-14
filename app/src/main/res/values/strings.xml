@@ -1,0 +1,4 @@
+<resources>
+  <string name="app_name">Threading performance</string>
+  <string name="start_the_test">Start the test</string>
+</resources>
