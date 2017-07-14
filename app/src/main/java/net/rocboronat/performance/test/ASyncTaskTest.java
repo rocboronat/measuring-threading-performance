@@ -1,7 +1,6 @@
 package net.rocboronat.performance.test;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import net.rocboronat.performance.BackgroundTask;
 import net.rocboronat.performance.TestCallback;
 
