@@ -1,4 +1,4 @@
-package net.rocboronat.performance.test;
+package net.rocboronat.performance.thread;
 
 import net.rocboronat.performance.BackgroundTask;
 import net.rocboronat.performance.TestCallback;

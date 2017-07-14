@@ -1,4 +1,4 @@
-package net.rocboronat.performance.test;
+package net.rocboronat.performance.intentservice;
 
 import android.app.IntentService;
 import android.content.Intent;
