@@ -1,5 +1,6 @@
 package net.rocboronat.performance.test;
 
+import net.rocboronat.performance.BackgroundTask;
 import net.rocboronat.performance.TestCallback;
 
 public class SimpleThreadTest {
@@ -13,6 +14,7 @@ public class SimpleThreadTest {
     new Thread(new Runnable() {
       @Override
       public void run() {
+        BackgroundTask.run("Simple thread");
         testCallback.onEnd();
       }
     }).start();

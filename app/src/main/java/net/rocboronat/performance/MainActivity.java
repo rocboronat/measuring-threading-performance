@@ -4,14 +4,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import net.rocboronat.performance.test.ASyncTaskTest;
 import net.rocboronat.performance.test.SimpleThreadTest;
 
 public class MainActivity extends AppCompatActivity {
 
-  public static final int REPETITIONS = 1000;
+  public static final int REPETITIONS = 100;
 
   public int threadIteration = 0;
   public long threadTestTime = 0;
+  public int asyncTaskIteration = 0;
+  public long asyncTaskTestTime = 0;
 
   public long testStartTime;
 
@@ -30,14 +33,17 @@ public class MainActivity extends AppCompatActivity {
         results.setText("");
         threadIteration = 0;
         threadTestTime = 0;
+        asyncTaskIteration = 0;
+        asyncTaskTestTime = 0;
         runTests();
       }
     });
   }
 
   private void runTests() {
+    printTestResults();
+    testStartTime = System.currentTimeMillis();
     if (threadIteration < REPETITIONS) {
-      testStartTime = System.currentTimeMillis();
       new SimpleThreadTest(new TestCallback() {
         @Override
         public void onEnd() {
@@ -45,21 +51,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
               threadIteration++;
-              threadTestTime += System.currentTimeMillis() - testStartTime;
+              threadTestTime += timeTook();
               runTests();
             }
           });
         }
       }).run();
-    } else {
-      printTestResults();
+    } else if (asyncTaskIteration < REPETITIONS) {
+      new ASyncTaskTest(new TestCallback() {
+        @Override
+        public void onEnd() {
+          asyncTaskIteration++;
+          asyncTaskTestTime += timeTook();
+          runTests();
+        }
+      }).run();
     }
   }
 
   private void printTestResults() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Simple threads: " + threadTestTime + "ms");
+    sb.append("Simple thread: " + threadTestTime + "ms\n");
+    sb.append("ASyncTask: " + asyncTaskTestTime + "ms\n");
 
     results.setText(sb.toString());
+  }
+
+  private long timeTook() {
+    return System.currentTimeMillis() - testStartTime;
   }
 }
