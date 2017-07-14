@@ -7,6 +7,7 @@ import android.widget.TextView;
 import net.rocboronat.performance.asynctask.ASyncTaskTest;
 import net.rocboronat.performance.intentservice.IntentServiceFinishedEvent;
 import net.rocboronat.performance.intentservice.IntentServiceTest;
+import net.rocboronat.performance.rx.RxCompletableTest;
 import net.rocboronat.performance.thread.SimpleThreadTest;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
   public long asyncTaskTestTime;
   private int intentServiceIteration;
   public long intentServiceTestTime;
+  private int rxCompletableIteration;
+  public long rxCompletableTestTime;
 
   public long testStartTime;
   private TextView results;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         asyncTaskTestTime = 0;
         intentServiceIteration = 0;
         intentServiceTestTime = 0;
+        rxCompletableIteration = 0;
+        rxCompletableTestTime = 0;
         runTests();
       }
     });
@@ -87,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
       }).run();
     } else if (intentServiceIteration < REPETITIONS) {
       new IntentServiceTest().run(this);
+    } else if (rxCompletableIteration < REPETITIONS) {
+      new RxCompletableTest(new TestCallback() {
+        @Override
+        public void onEnd() {
+          rxCompletableIteration++;
+          rxCompletableTestTime += timeTook();
+          runTests();
+        }
+      }).run();
     } else {
       printTestResults();
     }
@@ -97,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     sb.append("Simple thread: " + threadTestTime + "ms\n");
     sb.append("ASyncTask: " + asyncTaskTestTime + "ms\n");
     sb.append("Intent Service: " + intentServiceTestTime + "ms\n");
+    sb.append("RX: " + rxCompletableTestTime + "ms\n");
 
     results.setText(sb.toString());
   }
