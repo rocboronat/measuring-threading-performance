@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     sb.append("Simple thread: " + threadTestTime + "ms\n");
     sb.append("ASyncTask: " + asyncTaskTestTime + "ms\n");
     sb.append("Intent Service: " + intentServiceTestTime + "ms\n");
-    sb.append("RX: " + rxCompletableTestTime + "ms\n");
+    sb.append("Rx Completable: " + rxCompletableTestTime + "ms\n");
 
     results.setText(sb.toString());
   }
